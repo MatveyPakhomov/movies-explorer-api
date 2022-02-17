@@ -8,6 +8,7 @@
     "function-paren-newline": 0,
     "no-shadow": 0,
     "object-curly-newline": 0,
-    "no-console": 0
+    "no-console": 0,
+    "prefer-regex-literals": 0
   }
 }

@@ -8,24 +8,23 @@ const cookieParser = require("cookie-parser");
 const { celebrate, Joi, errors } = require("celebrate");
 
 const user = require("./routes/users");
-const card = require("./routes/cards");
+const movie = require("./routes/movies");
 const { login, createUser } = require("./controllers/users");
 const { auth } = require("./middlewares/auth");
-const { isValidURL } = require("./utils/methods");
 const NotFoundError = require("./errors/not-found-err");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/mestodb");
+mongoose.connect("mongodb://localhost:27017/moviesdb");
 
 app.use(
   "*",
   cors({
     origin: [
-      "https://pakhomov.students.nomoredomains.rocks",
-      "http://pakhomov.students.nomoredomains.rocks",
+      "https://pakhomov.diploma.nomoredomains.work",
+      "http://pakhomov.diploma.nomoredomains.work",
       "http:localhost:3000",
     ],
     methods: ["OPTIONS", "GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
@@ -63,9 +62,7 @@ app.post(
   "/signup",
   celebrate({
     body: Joi.object().keys({
-      name: Joi.string().default("Жак-Ив Кусто").min(2).max(30),
-      about: Joi.string().default("Исследователь").min(2).max(30),
-      avatar: Joi.string().custom(isValidURL),
+      name: Joi.string().default("Пользователь").min(2).max(30),
       email: Joi.string().required().email(),
       password: Joi.string().required().min(8),
     }),
@@ -73,19 +70,19 @@ app.post(
   createUser
 );
 
-app.get("/signin", (req, res, next) => {
+app.post("/signout", (req, res) => {
   res
     .clearCookie("jwt", {
       secure: true,
       sameSite: "none",
-      domain: ".nomoredomains.rocks",
+      domain: "api.pakhomov.diploma.nomoredomains.work",
     })
     .send({ message: "Выход совершен успешно" });
-  next();
+  // next();
 });
 
 app.use("/", auth, user);
-app.use("/", auth, card);
+app.use("/", auth, movie);
 
 app.use("*", (req, res, next) => {
   next(new NotFoundError("Страница не найдена"));

@@ -34,7 +34,7 @@ function login(req, res, next) {
           maxAge: 3600000 * 24 * 7,
           secure: true,
           sameSite: "none",
-          domain: ".nomoredomains.rocks",
+          domain: "api.pakhomov.diploma.nomoredomains.work",
         })
         .send({ message: "Аутентификация пройдена" })
         .end();
@@ -43,20 +43,18 @@ function login(req, res, next) {
 }
 
 function createUser(req, res, next) {
-  const { name, about, avatar, email } = req.body;
+  const { name, email } = req.body;
 
   return bcrypt
     .hash(req.body.password, 10)
     .then((hash) =>
       User.create({
         name,
-        about,
-        avatar,
         email,
         password: hash,
       })
     )
-    .then(() => res.status(200).send({ data: { name, about, avatar, email } }))
+    .then(() => res.status(200).send({ data: { name, email } }))
     .catch((err) => {
       if (err.name === "ValidationError") {
         next(
@@ -112,6 +110,8 @@ function updateUser(req, res, next) {
 }
 
 module.exports = {
+  login,
+  createUser,
   getUser,
   updateUser,
 };

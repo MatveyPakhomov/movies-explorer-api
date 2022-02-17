@@ -50,8 +50,8 @@ userSchema.statics.findUserByCredentials = function findUser(email, password) {
     });
 };
 
-const regex =
-  /https?:\/\/(www\.)?[\w-.~:/?#[\]@!$&'()*+,;=]{1,256}\.[\w-.~:/?#[\]@!$&'()*+,;=]{1,6}/i;
+// const regex =
+//   /https?:\/\/(www\.)?[\w-.~:/?#[\]@!$&'()*+,;=]{1,256}\.[\w-.~:/?#[\]@!$&'()*+,;=]{1,6}/i;
 
 // Шаблон находит url таких форматов:
 // const testUrls = [
@@ -70,9 +70,9 @@ const regex =
 //   }
 // });
 
-const validator = function avatarValidator(value) {
-  return regex.test(value);
-};
-userSchema.path("avatar").validate(validator, "Avatar URL is not valid");
+// const validator = function avatarValidator(value) {
+//   return regex.test(value);
+// };
+// userSchema.path("avatar").validate(validator, "Avatar URL is not valid");
 
 module.exports = mongoose.model("user", userSchema);

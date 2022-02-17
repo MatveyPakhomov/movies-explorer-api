@@ -63,11 +63,9 @@ const movieSchema = new mongoose.Schema({
   },
   movieId: {
     // id фильма, который содержится в ответе сервиса MoviesExplorer. Обязательное поле
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "MoviesExplorer",
     required: true,
-  },
-  likes: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
-    default: [],
   },
   nameRU: {
     // название фильма на русском языке.

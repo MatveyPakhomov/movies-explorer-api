@@ -1,9 +1,9 @@
-const isEmail = require("validator/lib/isEmail");
+const isURL = require("validator/lib/isURL");
 
-module.exports.isValidEmail = (value) => {
-  const valid = isEmail(value);
+module.exports.isValidURL = (value) => {
+  const valid = isURL(value);
   if (valid) {
     return value;
   }
-  throw new Error("Email validation err");
+  throw new Error("URL validation err");
 };
