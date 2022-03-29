@@ -13,6 +13,5 @@
 8. Controllers & Routes
 9. HTTPS
 
-### Сайт доступен по адресу https://pakhomov.diploma.nomoredomains.work/
-### домен сервера - api.pakhomov.diploma.nomoredomains.work
-### публичный IP - 51.250.25.245
+### Домен сервера - api.pakhomov.diploma.nomoredomains.work
+### публичный IP - 51.250.99.37

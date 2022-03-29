@@ -10,6 +10,7 @@ const User = require("../models/user");
 function login(req, res, next) {
   const { email, password } = req.body;
   const { NODE_ENV, JWT_SECRET } = process.env;
+  // const NODE_ENV = "dev";
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -29,9 +30,9 @@ function login(req, res, next) {
         .status(200)
         .cookie("jwt", token, {
           maxAge: 3600000 * 24 * 7,
-          secure: true,
+          secure: NODE_ENV === "production" ? "true" : false,
           sameSite: "none",
-          domain: "api.pakhomov.diploma.nomoredomains.work",
+          domain: NODE_ENV === "production" ? "api.pakhomov.diploma.nomoredomains.work" : false,
         })
         .send({ message: "Аутентификация пройдена" })
         .end();

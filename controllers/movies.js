@@ -14,7 +14,7 @@ function getMovies(req, res, next) {
 
 function createMovie(req, res, next) {
   const ownerId = req.user._id;
-  const movieId = req.movie._id;
+  const movieId = req.user._id; // временная мера, или же я что-то делаю не так =)
   const {
     country,
     director,

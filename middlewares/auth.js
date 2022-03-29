@@ -4,6 +4,7 @@ const UnauthorizedError = require("../errors/unauthorized-err");
 function auth(req, res, next) {
   const token = req.cookies.jwt;
   const { NODE_ENV, JWT_SECRET } = process.env;
+  // const NODE_ENV = "dev";
 
   if (!token) {
     throw new UnauthorizedError("Необходимо авторизоваться.");

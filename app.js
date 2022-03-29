@@ -71,11 +71,13 @@ app.post(
 );
 
 app.post("/signout", (req, res) => {
+  const { NODE_ENV } = "dev";
+
   res
     .clearCookie("jwt", {
-      secure: true,
-      sameSite: "none",
-      domain: "api.pakhomov.diploma.nomoredomains.work",
+      secure: NODE_ENV === "production" ? "true" : false,
+      sameSite: NODE_ENV === "production" ? "none" : "lax",
+      domain: NODE_ENV === "production" ? "api.pakhomov.diploma.nomoredomains.work" : null,
     })
     .send({ message: "Выход совершен успешно" });
   // next();
