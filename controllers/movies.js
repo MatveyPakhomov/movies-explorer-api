@@ -4,20 +4,47 @@ const BadRequestError = require("../errors/bad-request-err");
 const ForbiddenError = require("../errors/forbidden-err");
 
 function getMovies(req, res, next) {
-  return Movie.find({})
-    .populate(["owner", "likes"]) // # country, director, duration, year, description, image, trailer, nameRU, nameEN и thumbnail, movieId
-    .then((movies) => res.send(movies.reverse()))
-    .catch(next);
+  return (
+    Movie.find({})
+    // .populate(["owner", "likes"])
+      .then((movies) => res.send(movies.reverse()))
+      .catch(next)
+  );
 }
 
 function createMovie(req, res, next) {
   const ownerId = req.user._id;
-  const { name, link } = req.body;
+  const movieId = req.movie._id;
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    nameRU,
+    nameEN,
+  } = req.body;
 
-  return Movie.create({ name, link, owner: { _id: ownerId } })
+  return Movie.create({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    nameRU,
+    nameEN,
+    owner: { _id: ownerId },
+    movieId: { _id: movieId },
+  })
     .then((data) => {
       Movie.findById(data._id)
-        .populate(["owner", "likes"])
+        // .populate(["owner", "likes"])
         .then((movie) => res.send(movie));
     })
     .catch((err) => {
@@ -36,7 +63,7 @@ function deleteMovie(req, res, next) {
   const userId = req.user._id;
 
   return Movie.findById(req.params._id)
-    .populate(["owner", "likes"])
+    // .populate(["owner", "likes"])
     .then((data) => {
       if (!data) {
         throw new NotFoundError("Карточка с указанным _id не найдена.");

@@ -13,8 +13,6 @@ function login(req, res, next) {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      // аутентификация успешна! пользователь в переменной user
-      // создадим токен
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === "production" ? JWT_SECRET : "some-secret-key",
@@ -27,7 +25,6 @@ function login(req, res, next) {
         throw new UnauthorizedError("Ошибка авторизации");
       }
 
-      // отправим токен, браузер сохранит его в куках
       res
         .status(200)
         .cookie("jwt", token, {
@@ -85,7 +82,6 @@ function updateUser(req, res, next) {
   return User.findByIdAndUpdate(
     req.user._id,
     { name, about },
-    // Передадим объект опций:
     {
       new: true, // обработчик then получит на вход обновлённую запись
       runValidators: true, // данные будут валидированы перед изменением
