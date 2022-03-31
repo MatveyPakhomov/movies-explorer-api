@@ -62,12 +62,9 @@ function createUser(req, res, next) {
             `Переданы некорректные данные при создании пользователя. ${err.message}`
           )
         );
-      }
-
-      if (err.name === "MongoServerError" && err.code === 11000) {
+      } else if (err.name === "MongoServerError" && err.code === 11000) {
         next(new ConflictError("Данный email уже зарегистрирован."));
-      }
-      next(err);
+      } else next(err);
     });
 }
 
@@ -102,14 +99,11 @@ function updateUser(req, res, next) {
             `Переданы некорректные данные при обновлении профиля. ${err.message}`
           )
         );
-      }
-
-      if (err.name === "MongoServerError" && err.code === 11000) {
+      } else if (err.name === "MongoServerError" && err.code === 11000) {
         next(
           new ConflictError("Данный email используется другим пользователем.")
         );
-      }
-      next(err);
+      } else next(err);
     });
 }
 

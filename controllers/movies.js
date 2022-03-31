@@ -6,7 +6,7 @@ const ForbiddenError = require("../errors/forbidden-err");
 function getMovies(req, res, next) {
   return (
     Movie.find({})
-    // .populate(["owner", "likes"])
+      // .populate(["owner", "likes"])
       .then((movies) => res.send(movies.reverse()))
       .catch(next)
   );
@@ -51,46 +51,46 @@ function createMovie(req, res, next) {
       if (err.name === "ValidationError") {
         next(
           new BadRequestError(
-            `Переданы некорректные данные при создании карточки. ${err.message}`
+            `Переданы некорректные данные при создании фильма. ${err.message}`
           )
         );
-      }
-      next(err);
+      } else next(err);
     });
 }
 
 function deleteMovie(req, res, next) {
   const userId = req.user._id;
 
-  return Movie.findById(req.params._id)
-    // .populate(["owner", "likes"])
-    .then((data) => {
-      if (!data) {
-        throw new NotFoundError("Карточка с указанным _id не найдена.");
-      }
+  return (
+    Movie.findById(req.params._id)
+      // .populate(["owner", "likes"])
+      .then((data) => {
+        if (!data) {
+          throw new NotFoundError("Фильм с указанным id не найдена.");
+        }
 
-      const ownerId = data.owner._id.toString();
+        const ownerId = data.owner._id.toString();
 
-      if (ownerId !== userId) {
-        throw new ForbiddenError(
-          "Невовзможно удалить карточку созданную другим пользователем"
+        if (ownerId !== userId) {
+          throw new ForbiddenError(
+            "Невовзможно удалить фильм другого пользователя"
+          );
+        }
+
+        return Movie.findByIdAndRemove(req.params._id).then(() =>
+          res.send({ message: "Фильм удален." })
         );
-      }
-
-      Movie.findByIdAndRemove(req.params._id).then(() =>
-        res.send({ message: "Карточка удалена." })
-      );
-    })
-    .catch((err) => {
-      if (err.name === "CastError") {
-        next(
-          new BadRequestError(
-            "Переданы некорректные данные для удаления карточки."
-          )
-        );
-      }
-      next(err);
-    });
+      })
+      .catch((err) => {
+        if (err.name === "CastError") {
+          next(
+            new BadRequestError(
+              "Переданы некорректные данные для удаления фильма."
+            )
+          );
+        } else next(err);
+      })
+  );
 }
 
 module.exports = { getMovies, createMovie, deleteMovie };
