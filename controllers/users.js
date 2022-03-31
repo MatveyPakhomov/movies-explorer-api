@@ -10,7 +10,6 @@ const User = require("../models/user");
 function login(req, res, next) {
   const { email, password } = req.body;
   const { NODE_ENV, JWT_SECRET } = process.env;
-  // const NODE_ENV = "dev";
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -32,7 +31,10 @@ function login(req, res, next) {
           maxAge: 3600000 * 24 * 7,
           secure: NODE_ENV === "production" ? "true" : false,
           sameSite: "none",
-          domain: NODE_ENV === "production" ? "api.pakhomov.diploma.nomoredomains.work" : false,
+          domain:
+            NODE_ENV === "production"
+              ? "api.pakhomov.diploma.nomoredomains.work"
+              : false,
         })
         .send({ message: "Аутентификация пройдена" })
         .end();
@@ -78,11 +80,10 @@ function getUser(req, res, next) {
 }
 
 function updateUser(req, res, next) {
-  const { name, about } = req.body;
-
+  const { email, name } = req.body;
   return User.findByIdAndUpdate(
     req.user._id,
-    { name, about },
+    { email, name },
     {
       new: true, // обработчик then получит на вход обновлённую запись
       runValidators: true, // данные будут валидированы перед изменением
@@ -90,7 +91,7 @@ function updateUser(req, res, next) {
   )
     .then((user) => {
       if (!user) {
-        throw new NotFoundError("Пользователь с указанным _id не найден.");
+        throw new NotFoundError("Пользователь с указанным id не найден.");
       }
       res.send(user);
     })
@@ -100,6 +101,12 @@ function updateUser(req, res, next) {
           new BadRequestError(
             `Переданы некорректные данные при обновлении профиля. ${err.message}`
           )
+        );
+      }
+
+      if (err.name === "MongoServerError" && err.code === 11000) {
+        next(
+          new ConflictError("Данный email используется другим пользователем.")
         );
       }
       next(err);

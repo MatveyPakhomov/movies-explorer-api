@@ -12,14 +12,15 @@ router.post(
   "/movies",
   celebrate({
     body: Joi.object().keys({
-      country: Joi.string().required().min(2).max(30),
+      country: Joi.string().required().min(2),
       director: Joi.string().required().min(2),
-      duration: Joi.number().required(),
+      duration: Joi.number().required().min(2),
       year: Joi.string().required().min(4).max(4),
       description: Joi.string().required(),
       image: Joi.string().required().min(2).custom(isValidURL),
       trailerLink: Joi.string().required().min(2).custom(isValidURL),
       thumbnail: Joi.string().required().min(2).custom(isValidURL),
+      movieId: Joi.number().required().min(1),
       nameRU: Joi.string().required().min(2).pattern(new RegExp("^[а-яёА-ЯЁ]{3,30}$")),
       nameEN: Joi.string().required().min(2).pattern(new RegExp("^[a-zA-Z]{3,30}$")),
     }),

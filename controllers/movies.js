@@ -14,7 +14,6 @@ function getMovies(req, res, next) {
 
 function createMovie(req, res, next) {
   const ownerId = req.user._id;
-  const movieId = req.user._id; // временная мера, или же я что-то делаю не так =)
   const {
     country,
     director,
@@ -24,6 +23,7 @@ function createMovie(req, res, next) {
     image,
     trailerLink,
     thumbnail,
+    movieId,
     nameRU,
     nameEN,
   } = req.body;
@@ -37,10 +37,10 @@ function createMovie(req, res, next) {
     image,
     trailerLink,
     thumbnail,
+    owner: { _id: ownerId },
+    movieId,
     nameRU,
     nameEN,
-    owner: { _id: ownerId },
-    movieId: { _id: movieId },
   })
     .then((data) => {
       Movie.findById(data._id)

@@ -6,7 +6,6 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 30,
   },
   director: {
     type: String,
@@ -17,7 +16,6 @@ const movieSchema = new mongoose.Schema({
     type: Number,
     required: true,
     minlength: 2,
-    maxlength: 30,
   },
   year: {
     type: String,
@@ -63,9 +61,9 @@ const movieSchema = new mongoose.Schema({
   },
   movieId: {
     // id фильма, который содержится в ответе сервиса MoviesExplorer. Обязательное поле
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    type: Number,
     required: true,
+    minlength: 1,
   },
   nameRU: {
     // название фильма на русском языке.
