@@ -33,7 +33,7 @@ function login(req, res, next) {
           sameSite: "none",
           domain:
             NODE_ENV === "production"
-              ? "api.pakhomov.diploma.nomoredomains.work"
+              ? "pakhomov.diploma.nomoredomains.work"
               : false,
         })
         .send({ message: "Аутентификация пройдена" })
@@ -64,7 +64,9 @@ function createUser(req, res, next) {
         );
       } else if (err.name === "MongoServerError" && err.code === 11000) {
         next(new ConflictError("Данный email уже зарегистрирован."));
-      } else next(err);
+      } else {
+        next(err);
+      }
     });
 }
 
@@ -103,7 +105,9 @@ function updateUser(req, res, next) {
         next(
           new ConflictError("Данный email используется другим пользователем.")
         );
-      } else next(err);
+      } else {
+        next(err);
+      }
     });
 }
 
