@@ -11,7 +11,7 @@ const routes = require("./routes/index");
 const NotFoundError = require("./errors/not-found-err");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
-const { NODE_ENV, DB_ADRESS, PORT = 3000 } = process.env;
+const { NODE_ENV, DB_ADRESS, PORT = 3001 } = process.env;
 const app = express();
 mongoose.connect(
   NODE_ENV === "production"
