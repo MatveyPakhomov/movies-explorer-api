@@ -29,7 +29,7 @@ function login(req, res, next) {
         .status(200)
         .cookie("jwt", token, {
           maxAge: 3600000 * 24 * 7,
-          secure: NODE_ENV === "production" ? "true" : false,
+          secure: true,
           sameSite: "none",
           domain:
             NODE_ENV === "production"

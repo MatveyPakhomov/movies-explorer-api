@@ -25,7 +25,7 @@ app.use(
     origin: [
       "https://pakhomov.diploma.nomoredomains.work",
       "http://pakhomov.diploma.nomoredomains.work",
-      "http:localhost:3000",
+      "http://localhost:3000",
     ],
     methods: ["OPTIONS", "GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
     preflightContinue: false,

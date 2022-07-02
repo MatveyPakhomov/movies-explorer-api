@@ -21,8 +21,14 @@ router.post(
       trailerLink: Joi.string().required().min(2).custom(isValidURL),
       thumbnail: Joi.string().required().min(2).custom(isValidURL),
       movieId: Joi.number().required().min(1),
-      nameRU: Joi.string().required().min(2).pattern(new RegExp("^[а-яёА-ЯЁ]{3,30}$")),
-      nameEN: Joi.string().required().min(2).pattern(new RegExp("^[a-zA-Z]{3,30}$")),
+      nameRU: Joi.string()
+        .required()
+        .regex(/[а-я.:!?"«»;@%№()*#,ё\s]/i)
+        .min(1),
+      nameEN: Joi.string()
+        .required()
+        .regex(/[\w.:!?"«»;@%№()*#,\s]/i)
+        .min(1),
     }),
   }),
   createMovie
