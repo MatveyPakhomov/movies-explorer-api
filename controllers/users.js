@@ -29,12 +29,12 @@ function login(req, res, next) {
         .status(200)
         .cookie("jwt", token, {
           maxAge: 3600000 * 24 * 7,
-          // secure: true,
-          // sameSite: false,
-          // domain:
-          //   NODE_ENV === "production"
-          //     ? "pakhomov.diploma.nomoredomains.work"
-          //     : false,
+          secure: true,
+          sameSite: "none",
+          domain:
+            NODE_ENV === "production"
+              ? "pakhomov.diploma.nomoredomains.work"
+              : false,
         })
         .send({ message: "Аутентификация пройдена" })
         .end();
