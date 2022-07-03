@@ -30,7 +30,7 @@ function login(req, res, next) {
         .cookie("jwt", token, {
           maxAge: 3600000 * 24 * 7,
           secure: true,
-          sameSite: "none",
+          sameSite: false,
           domain:
             NODE_ENV === "production"
               ? "pakhomov.diploma.nomoredomains.work"
