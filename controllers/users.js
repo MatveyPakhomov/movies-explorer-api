@@ -33,7 +33,7 @@ function login(req, res, next) {
           sameSite: "none",
           domain:
             NODE_ENV === "production"
-              ? ".nomoredomains.work"
+              ? "pakhomov.diploma.nomoredomains.work"
               : false,
         })
         .send({ message: "Аутентификация пройдена" })
