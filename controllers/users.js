@@ -29,10 +29,11 @@ function login(req, res, next) {
         .status(200)
         .cookie("jwt", token, {
           maxAge: 3600000 * 24 * 7,
-          sameSite: false,
+          secure: true,
+          sameSite: "none",
           domain:
             NODE_ENV === "production"
-              ? "pakhomov.diploma.nomoredomains.work"
+              ? ".nomoredomains.work"
               : false,
         })
         .send({ message: "Аутентификация пройдена" })
