@@ -8,7 +8,7 @@ router.post("/signout", (req, res) => {
   res
     .clearCookie("jwt", {
       secure: true,
-      sameSite: "none",
+      sameSite: false,
       domain:
         NODE_ENV === "production"
           ? "pakhomov.diploma.nomoredomains.work"
