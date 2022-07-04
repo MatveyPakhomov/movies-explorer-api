@@ -2,17 +2,17 @@ const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
 const { getUser, updateUser } = require("../controllers/users");
 
-// const { NODE_ENV } = process.env;
+const { NODE_ENV } = process.env;
 
 router.post("/signout", (req, res) => {
   res
     .clearCookie("jwt", {
-      // secure: NODE_ENV === "production" ? "true" : false,
-      sameSite: false,
-      // domain:
-      //   NODE_ENV === "production"
-      //     ? "api.pakhomov.diploma.nomoredomains.work"
-      //     : null,
+      secure: NODE_ENV === "production" ? "true" : false,
+      sameSite: NODE_ENV === "production" ? "none" : "lax",
+      domain:
+        NODE_ENV === "production"
+          ? "api.pakhomov.diploma.nomoredomains.work"
+          : null,
     })
     .send({ message: "Выход совершен успешно" });
 });
