@@ -7,12 +7,12 @@ const { NODE_ENV } = process.env;
 router.post("/signout", (req, res) => {
   res
     .clearCookie("jwt", {
-      secure: NODE_ENV === "production" ? "true" : false,
-      sameSite: NODE_ENV === "production" ? "none" : "lax",
+      secure: true,
+      sameSite: "none",
       domain:
         NODE_ENV === "production"
-          ? "api.pakhomov.diploma.nomoredomains.work"
-          : null,
+          ? "pakhomov.diploma.nomoredomains.work"
+          : false,
     })
     .send({ message: "Выход совершен успешно" });
 });
