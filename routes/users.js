@@ -9,10 +9,6 @@ router.post("/signout", (req, res) => {
     .clearCookie("jwt", {
       secure: NODE_ENV === "production" ? "true" : false,
       sameSite: NODE_ENV === "production" ? "none" : "lax",
-      domain:
-        NODE_ENV === "production"
-          ? "api.pakhomov.diploma.nomoredomains.work"
-          : null,
     })
     .send({ message: "Выход совершен успешно" });
 });
