@@ -7,7 +7,7 @@ const { NODE_ENV } = process.env;
 router.post("/signout", (req, res) => {
   res
     .clearCookie("jwt", {
-      secure: NODE_ENV === "production" ? "true" : false,
+      secure: true,
       sameSite: NODE_ENV === "production" ? "none" : "lax",
     })
     .send({ message: "Выход совершен успешно" });
