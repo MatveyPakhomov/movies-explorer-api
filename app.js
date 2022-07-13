@@ -16,7 +16,7 @@ const app = express();
 mongoose.connect(
   NODE_ENV === "production"
     ? DB_ADRESS
-    : "mongodb://localhost:27017/moviesdb-local"
+    : "mongodb://127.0.0.1:27017/moviesdb-local"
 );
 
 app.use(
