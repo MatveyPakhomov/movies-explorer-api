@@ -14,4 +14,4 @@
 9. HTTPS
 
 ### Домен сервера - api.pakhomov.diploma.nomoredomains.work
-### публичный IP - 51.250.99.37
+### публичный IP - 130.193.40.89
