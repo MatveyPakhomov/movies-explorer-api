@@ -44,6 +44,7 @@ function login(req, res, next) {
 
 function createUser(req, res, next) {
   const { name, email } = req.body;
+  const { NODE_ENV, JWT_SECRET } = process.env;
 
   return bcrypt
     .hash(req.body.password, 10)
@@ -54,7 +55,27 @@ function createUser(req, res, next) {
         password: hash,
       })
     )
-    .then(() => res.status(200).send({ data: { name, email } }))
+    .then((user) => {
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === "production" ? JWT_SECRET : "some-secret-key",
+        {
+          expiresIn: "7d",
+        }
+      );
+      res
+        .status(200)
+        .cookie("jwt", token, {
+          maxAge: 3600000 * 24 * 7,
+          secure: true,
+          sameSite: false,
+          domain:
+            NODE_ENV === "production"
+              ? "pakhomov.diploma.nomoredomains.work"
+              : false,
+        })
+        .send({ data: { name, email } });
+    })
     .catch((err) => {
       if (err.name === "ValidationError") {
         next(
